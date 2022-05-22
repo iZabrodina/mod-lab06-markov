@@ -38,8 +38,7 @@ void text_generator::power_up(const std::string& file_path) {
     power_up(words);
 }
 
-std::string text_generator::generate_text(std::size_t text_size,
-                                          std::size_t words_in_line) {
+std::string text_generator::generate_text(std::size_t text_size, std::size_t words_in_line) {
     if (text_size < prefix_size) {
         return "Too small text size\n";
     }
@@ -89,8 +88,7 @@ std::string text_generator::generate_text(std::size_t text_size,
     return out;
 }
 
-std::map<std::deque<std::string>,
-std::map<std::string, std::size_t>> text_generator::get_base() {
+std::map<std::deque<std::string>, std::map<std::string, std::size_t>> text_generator::get_base() {
     return data_base;
 }
 
