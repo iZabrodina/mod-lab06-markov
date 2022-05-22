@@ -44,7 +44,7 @@ std::string text_generator::generate_text(std::size_t text_size,
         return "Too small text size\n";
     }
     std::srand(std::time(nullptr));
-    std::size_t pos = rand_r() % data_base.size();
+    std::size_t pos = rand() % data_base.size();
     auto iterator = data_base.begin();
     for (std::size_t i = 0; i < pos; i++) {
         ++iterator;
@@ -68,7 +68,7 @@ std::string text_generator::generate_text(std::size_t text_size,
         for (auto& m : data_base[key]) {
             key_variant_power += m.second;
         }
-        chance = rand_r() % (key_variant_power);
+        chance = rand() % (key_variant_power);
         for (auto& m : data_base[key]) {
             if (m.second+chance_counter >= chance) {
                 next_w = m.first;
