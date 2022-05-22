@@ -1,10 +1,10 @@
 // Copyright 2022 UNN-IASR
+#include <iostream>
 #include "textgen.h"
 #include "utils.h"
-#include <iostream>
 
-void text_generator::power_up(const std::vector<std::string>& words)
-{
+
+void text_generator::power_up(const std::vector<std::string>& words) {
     if (words.size() < prefix_size + 1) {
         return;
     }
@@ -38,12 +38,13 @@ void text_generator::power_up(const std::string& file_path) {
     power_up(words);
 }
 
-std::string text_generator::generate_text(std::size_t text_size, std::size_t words_in_line) {
+std::string text_generator::generate_text(std::size_t text_size,
+                                          std::size_t words_in_line) {
     if (text_size < prefix_size) {
         return "Too small text size\n";
     }
     std::srand(std::time(nullptr));
-    std::size_t pos = rand() % data_base.size();
+    std::size_t pos = rand_r() % data_base.size();
     auto iterator = data_base.begin();
     for (std::size_t i = 0; i < pos; i++) {
         ++iterator;
@@ -51,7 +52,7 @@ std::string text_generator::generate_text(std::size_t text_size, std::size_t wor
     std::deque<std::string> key = iterator->first;
     std::string out = "";
     for (auto& s : key) {
-        out=out+s+" ";
+        out = out + s + " ";
     }
     std::size_t key_variant_power;
     std::string next_w;
@@ -67,7 +68,7 @@ std::string text_generator::generate_text(std::size_t text_size, std::size_t wor
         for (auto& m : data_base[key]) {
             key_variant_power += m.second;
         }
-        chance = rand() % (key_variant_power);
+        chance = rand_r() % (key_variant_power);
         for (auto& m : data_base[key]) {
             if (m.second+chance_counter >= chance) {
                 next_w = m.first;
@@ -80,7 +81,7 @@ std::string text_generator::generate_text(std::size_t text_size, std::size_t wor
             out = out + next_w;
             break;
         }
-        out=out+next_w+" ";
+        out = out + next_w + " ";
         key.pop_front();
         key.push_back(next_w);
         ++line_size;
@@ -88,7 +89,8 @@ std::string text_generator::generate_text(std::size_t text_size, std::size_t wor
     return out;
 }
 
-std::map<std::deque<std::string>, std::map<std::string, std::size_t>> text_generator::get_base() {
+std::map<std::deque<std::string>,
+std::map<std::string, std::size_t>> text_generator::get_base() {
     return data_base;
 }
 
