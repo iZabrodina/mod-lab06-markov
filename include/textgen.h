@@ -8,8 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 
-class text_generator
-{
+class text_generator {
 public:
     text_generator(std::size_t prefix_size) : prefix_size(prefix_size), data_base_power(0) {}
     void power_up(const std::string& file_path);
