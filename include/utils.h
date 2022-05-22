@@ -7,7 +7,7 @@ std::vector<std::string> read_stream(stream_t& stream) {
     std::vector<std::string> result;
     std::string word = "";
     unsigned char ch = stream.get();
-    while(!stream.eof()) {
+    while (!stream.eof()) {
         if (ch > 191 && ch < 224) {
             ch += 32;
         }
