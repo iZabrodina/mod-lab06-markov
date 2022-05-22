@@ -4,23 +4,19 @@
 
 void text_generator::power_up(const std::vector<std::string>& words)
 {
-    if (words.size() < prefix_size + 1)
-    {
+    if (words.size() < prefix_size + 1) {
         return;
     }
     std::deque<std::string> key;
-    for (int i = 0; i < prefix_size; i++)
-    {
+    for (int i = 0; i < prefix_size; i++) {
         key.push_back(words[i]);
     }
-    for (int i = prefix_size; i < words.size(); i++)
-    {
+    for (int i = prefix_size; i < words.size(); i++) {
         data_base[key][words[i]]++;
         key.pop_front();
         key.push_back(words[i]);
     }
-    for (std::size_t i = prefix_size; i > 0; i--)
-    {
+    for (std::size_t i = prefix_size; i > 0; i--) {
         key.pop_front();
         key.push_back(words[words.size() - i]);
     }
@@ -30,12 +26,10 @@ void text_generator::power_up(const std::vector<std::string>& words)
     data_base_power += words.size();
 }
 
-void text_generator::power_up(const std::string& file_path)
-{
+void text_generator::power_up(const std::string& file_path) {
     std::ifstream fin;
     fin.open(file_path);
-    if (!fin)
-    {
+    if (!fin) {
         throw(std::bad_exception());
     }
     std::vector<std::string> words = read_stream(fin);
@@ -43,23 +37,19 @@ void text_generator::power_up(const std::string& file_path)
     power_up(words);
 }
 
-std::string text_generator::generate_text(std::size_t text_size, std::size_t words_in_line)
-{
-    if (text_size < prefix_size)
-    {
+std::string text_generator::generate_text(std::size_t text_size, std::size_t words_in_line) {
+    if (text_size < prefix_size) {
         return "Too small text size\n";
     }
     std::srand(std::time(nullptr));
     std::size_t pos = rand() % data_base.size();
     auto iterator = data_base.begin();
-    for (std::size_t i = 0; i < pos; i++)
-    {
+    for (std::size_t i = 0; i < pos; i++) {
         ++iterator;
     }
     std::deque<std::string> key = iterator->first;
     std::string out = "";
-    for (auto& s : key)
-    {
+    for (auto& s : key) {
         out=out+s+" ";
     }
     std::size_t key_variant_power;
@@ -67,31 +57,25 @@ std::string text_generator::generate_text(std::size_t text_size, std::size_t wor
     std::size_t chance;
     std::size_t line_size = prefix_size;
     std::size_t chance_counter = 0;
-    for (std::size_t i = prefix_size; i < text_size; i++)
-    {
-        if (line_size >= words_in_line)
-        {
+    for (std::size_t i = prefix_size; i < text_size; i++) {
+        if (line_size >= words_in_line) {
             out+="\n";
             line_size = 0;
         }
         key_variant_power = 0;
-        for (auto& m : data_base[key])
-        {
+        for (auto& m : data_base[key]) {
             key_variant_power += m.second;
         }
         chance = rand() % (key_variant_power);
-        for (auto& m : data_base[key])
-        {
-            if (m.second+chance_counter >= chance)
-            {
+        for (auto& m : data_base[key]) {
+            if (m.second+chance_counter >= chance) {
                 next_w = m.first;
                 chance_counter = 0;
                 break;
             }
             chance_counter += m.second;
         }
-        if (next_w == ".")
-        {
+        if (next_w == ".") {
             out = out + next_w;
             break;
         }
@@ -103,23 +87,18 @@ std::string text_generator::generate_text(std::size_t text_size, std::size_t wor
     return out;
 }
 
-std::map<std::deque<std::string>, std::map<std::string, std::size_t>> text_generator::get_base()
-{
+std::map<std::deque<std::string>, std::map<std::string, std::size_t>> text_generator::get_base() {
     return data_base;
 }
 
-void text_generator::print_data_base()
-{
-    for (auto& up_map : data_base)
-    {
+void text_generator::print_data_base() {
+    for (auto& up_map : data_base) {
         std::cout << "[ ";
-        for (auto& key : up_map.first)
-        {
+        for (auto& key : up_map.first) {
             std::cout << key << " ";
         }
         std::cout << "] { ";
-        for (auto& down_map : up_map.second)
-        {
+        for (auto& down_map : up_map.second) {
             std::cout << down_map.first << " ";
         }
         std::cout << " }\n";
