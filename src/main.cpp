@@ -1,9 +1,9 @@
+// Copyright 2022 UNN-IASR
 #include <iostream>
 #include <fstream>
 #include "textgen.h"
 
-int main()
-{
+int main() {
     std::setlocale(LC_ALL, "Russian");
     text_generator gener{ 2 };
     gener.power_up("text.txt");
