@@ -34,36 +34,34 @@ TEST(AllTests, Suffix) {
 
     std::deque<std::string> list {"my"};
     auto iterator = base[std::deque<std::string>{"hello", "again"}].begin();
-    for(auto& x : list)
-    {
+    for (auto& x : list) {
         ASSERT_EQ(iterator->first, x);
         ++iterator;
     }
 }
 
 TEST(AllTests, SuffixMulti) {
-    std::vector<std::string> text = {"hello", "again", "my", "friend", "hello", "again", "darling"};
+    std::vector<std::string> text =
+    { "hello", "again", "my", "friend", "hello", "again", "darling"};
 
     text_generator tg{2};
     tg.power_up(text);
     auto base = tg.get_base();
 
-    std::deque<std::string> list {"darling","my"};
+    std::deque<std::string> list {"darling", "my"};
     auto iterator = base[std::deque<std::string>{"hello", "again"}].begin();
-    for(auto& x : list)
-    {
+    for (auto& x : list) {
         ASSERT_EQ(iterator->first, x);
         ++iterator;
     }
 }
 
 TEST(AllTests, TextGeneration) {
-    std::vector<std::string> text = {"hello", "again", "my", "friend", "hello", "again", "darling"};
+    std::vector<std::string> text =
+    {"hello", "again", "my", "friend", "hello", "again", "darling"};
 
     text_generator tg{3};
     tg.power_up(text);
-    std::string out = tg.generate_text(10,5);
-
-    // Last symbol will be "." because algorithm will use word "darling", which one is end of the sentence.
+    std::string out = tg.generate_text(10, 5);
     ASSERT_EQ(out[out.length()-1], '.');
 }
