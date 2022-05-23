@@ -3,7 +3,6 @@
 #include <random>
 #include "textgen.h"
 #include "utils.h"
-#define RAND_MAX (10000)
 
 std::default_random_engine& my_engine() {
     static std::default_random_engine e{};
