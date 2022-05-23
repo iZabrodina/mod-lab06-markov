@@ -1,7 +1,18 @@
 // Copyright 2022 UNN-IASR
 #include <iostream>
+#include <random>
 #include "textgen.h"
 #include "utils.h"
+
+
+std::default_random_engine& my_engine()
+ {
+     static std::default_random_engine e{};
+     return e;
+     }
+
+#define RAND_MAX (my_engine().max() - my_engine().min())
+int randm() { return my_engine()() - my_engine().min(); }
 
 
 void text_generator::power_up(const std::vector<std::string>& words) {
@@ -44,7 +55,7 @@ std::string text_generator::generate_text
         return "Too small text size\n";
     }
     std::srand(std::time(nullptr));
-    std::size_t pos = rand() % data_base.size();
+    std::size_t pos = randm() % data_base.size();
     auto iterator = data_base.begin();
     for (std::size_t i = 0; i < pos; i++) {
         ++iterator;
@@ -61,16 +72,16 @@ std::string text_generator::generate_text
     std::size_t chance_counter = 0;
     for (std::size_t i = prefix_size; i < text_size; i++) {
         if (line_size >= words_in_line) {
-            out+="\n";
+            out += "\n";
             line_size = 0;
         }
         key_variant_power = 0;
         for (auto& m : data_base[key]) {
             key_variant_power += m.second;
         }
-        chance = rand() % (key_variant_power);
+        chance = randm() % (key_variant_power);
         for (auto& m : data_base[key]) {
-            if (m.second+chance_counter >= chance) {
+            if (m.second + chance_counter >= chance) {
                 next_w = m.first;
                 chance_counter = 0;
                 break;
@@ -90,7 +101,7 @@ std::string text_generator::generate_text
 }
 
 std::map<std::deque<std::string>, std::map<std::string,
-std::size_t>> text_generator::get_base() {
+    std::size_t>> text_generator::get_base() {
     return data_base;
 }
 
