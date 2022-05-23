@@ -11,7 +11,7 @@
 
 class text_generator {
  public:
-    text_generator(std::size_t prefix_size) :
+    explicit text_generator(std::size_t prefix_size) :
     prefix_size(prefix_size), data_base_power(0) {}
     void power_up(const std::string& file_path);
     void power_up(const std::vector<std::string>& words);
