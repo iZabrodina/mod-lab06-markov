@@ -3,15 +3,14 @@
 #include <random>
 #include "textgen.h"
 #include "utils.h"
+#define RAND_MAX (10000)
+
+std::default_random_engine& my_engine() {
+    static std::default_random_engine e{};
+    return e;
+}
 
 
-std::default_random_engine& my_engine()
- {
-     static std::default_random_engine e{};
-     return e;
-     }
-
-#define RAND_MAX (my_engine().max() - my_engine().min())
 int randm() { return my_engine()() - my_engine().min(); }
 
 
