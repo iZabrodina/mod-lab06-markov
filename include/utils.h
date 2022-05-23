@@ -4,7 +4,7 @@
 #include <string>
 
 template<typename stream_t>
-    std::vector<std::string> read_stream(stream_t (&stream)) {
+    std::vector<std::string> read_stream(stream_t(&stream)) {
     std::vector<std::string> result;
     std::string word = "";
     unsigned char ch = stream.get();
